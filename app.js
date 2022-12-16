@@ -106,30 +106,6 @@ function draw(){
 
 // _______________ANIMATE SPRITE___________________
 
-let idle = {
-    row: 1,
-    frames: 2,
-    interval: 12
-}
-let run = {
-    row: 2,
-    frames: 5,
-    interval: 8
-}
-let rest = {
-    row: 3,
-    frames: 2,
-    interval: 12
-}
-
-function stateManage(){
-    if(true){
-        chosenRow = idle.row;
-        framesOnRow = idle.frames;
-        frameInterval = idle.interval;
-    }
-}
-
 //animate per row test
 const spriteSheet = document.getElementById("puppy");
 const scale = 8;
