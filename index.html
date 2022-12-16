@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <script defer src="./app.js"></script>
+</head>
+<body>
+    <div class="background"></div>
+
+    <p>R = run <br>S = sit</p>
+
+    <figure class="eye__container">
+        <img id="base__eyes-open" src="./assets/eye_open.png">
+        <img id="base__eyes-closed" class="hidden" src="./assets/eye_closed.png">
+        <div id="pupils">
+          <img class="pupil" src="./assets/eye_pupil.png" style="top: 45px; left: 45px">
+        </div>
+      </figure>
+
+      <canvas id="canvas" width="600" height="300">
+        Your browser does not support HTML5 canvas.
+      </canvas>
+
+      <img id="puppy" class="hidden" src="./assets/puppy.png">
+</body>
+</html>
