@@ -71,6 +71,7 @@ let puppy2;
 let puppy3;
 
 let explostion;
+let person;
 
 window.onload = init;
 
@@ -85,6 +86,7 @@ function init(){
     target = puppy;
 
     explostion = new AnimateSprite(document.getElementById("explostion"), 8, 100, 100, 2, 3, 1, 2, 4, true);
+    person = new AnimateSprite(document.getElementById("person"), 8, 500, 150, 4, 5, 2, 4, 8, true);
 
     // Start the first frame request
     window.requestAnimationFrame(gameLoop);
@@ -97,7 +99,7 @@ function gameLoop(timeStamp) {
 
     // Calculate fps
     fps = Math.round(1 / secondsPassed);
-    if(fps) console.log("FPS: " + fps);
+    //if(fps) console.log("FPS: " + fps);
 
     update(secondsPassed);
     draw();
@@ -120,6 +122,7 @@ function draw(){
     puppy3.drawSprite(context);
 
     explostion.drawSprite(context);
+    person.drawSprite(context);
 }
 
 // _______________SWITCH ANIMATIONS___________________
@@ -184,12 +187,13 @@ class AnimateSprite{
             if(this.playAllRows){
                 //loop through all frames
                 this.currentFrame++
-                if(this.currentFrame > this.totalColumns){
+                if(this.currentFrame > this.totalColumns - 1){
                     this.currentFrame = 0;
                     this.chosenRow++
                 }
-                if(this.chosenRow == this.totalRows && this.currentFrame == this.framesOnRow){
-                    this.chosenRow = 0;
+                if(this.chosenRow == this.totalRows && this.currentFrame == this.framesOnRow - 1){
+                    this.chosenRow = 1;
+                    this.currentFrame = 0;
                 }
             }
             else{
