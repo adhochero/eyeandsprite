@@ -65,12 +65,20 @@ let secondsPassed;
 let oldTimeStamp;
 let fps;
 
+let target;
+let puppy;
+let puppy2;
+
 window.onload = init;
 
 function init(){
     // Get a reference to the canvas
     canvas = document.getElementById('canvas');
     context = canvas.getContext('2d');
+
+    puppy = new AnimateSprite(document.getElementById("puppy"), 8, 200, 150, 5, 3, 3, 2, 12);
+    puppy2 = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3, 3, 2, 12);
+    target = puppy;
 
     // Start the first frame request
     window.requestAnimationFrame(gameLoop);
@@ -101,67 +109,83 @@ function draw(){
     context.clearRect(0, 0, canvas.width, canvas.height);
     
     //draw below
-    drawSprite();
+    //drawSprite();
+    puppy.drawSprite(context);
+    puppy2.drawSprite(context);
 }
 
-// _______________ANIMATE SPRITE___________________
-
-//animate per row test
-const spriteSheet = document.getElementById("puppy");
-const scale = 8;
-const totalColumns = 5;
-const totalRows = 3;
-
-let chosenRow = 3;
-let framesOnRow = 2;
-let currentFrame = 0;
-
-let frameTimer = 0;
-let frameInterval = 12;
-
-function drawSprite(){
-    //get frames size based on spritesheet
-    let sheetWidth = spriteSheet.naturalWidth;
-    let sheetHeigth = spriteSheet.naturalHeight;
-    let frameWidth = sheetWidth / totalColumns;
-    let frameHeight = sheetHeigth / totalRows;
-
-    frameTimer++;
-    if(frameTimer > frameInterval){
-        frameTimer = 0;
-
-        //loop through frames on row
-        if(currentFrame < framesOnRow - 1) currentFrame++;
-        else currentFrame = 0;
-    }
-
-    context.imageSmoothingEnabled = false;
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(
-        spriteSheet, //img
-        currentFrame * frameWidth, //sx
-        (chosenRow - 1) * frameHeight, //sy
-        frameWidth, //swidth
-        frameHeight, //sheight
-        300 - frameWidth * 0.5 * scale, //x
-        150 - frameHeight * 0.5 * scale, //y
-        frameWidth * scale, //width
-        frameHeight * scale //height
-    );
-}
+// _______________SWITCH ANIMATIONS___________________
 
 //change animation on key down
 document.onkeydown = function (e) {
+    if (e.key == "1"){
+        target = puppy;
+    }
+    if (e.key == "2"){
+        target = puppy2;
+    }
+
     if (e.key.toLowerCase() == "r"){
-        currentFrame = 0;
-        chosenRow = 2;
-        framesOnRow = 5;
-        frameInterval = 8;
+        target.currentFrame = 0;
+        target.chosenRow = 2;
+        target.framesOnRow = 5;
+        target.frameInterval = 8;
     }
     if (e.key.toLowerCase() == "s"){
-        currentFrame = 0;
-        chosenRow = 3;
-        framesOnRow = 2;
-        frameInterval = 12;
+        target.currentFrame = 0;
+        target.chosenRow = 3;
+        target.framesOnRow = 2;
+        target.frameInterval = 12;
     }
 };
+
+// _______________ANIMATE SPRITE CLASS___________________
+
+class AnimateSprite{
+    constructor(spriteSheet, scale, x, y, totalColumns, totalRows, chosenRow, framesOnRow, frameInterval){
+        this.spriteSheet = spriteSheet;
+        this.scale = scale;
+        this.x = x;
+        this.y = y;
+        this.totalColumns = totalColumns;
+        this.totalRows = totalRows;
+        
+        this.chosenRow = chosenRow;
+        this.framesOnRow = framesOnRow;
+        this.currentFrame = 0;
+        
+        this.frameTimer = 0;
+        this.frameInterval = frameInterval;
+    }
+
+    drawSprite(context){
+        //get frames size based on spritesheet
+        let sheetWidth = this.spriteSheet.naturalWidth;
+        let sheetHeigth = this.spriteSheet.naturalHeight;
+        let frameWidth = sheetWidth / this.totalColumns;
+        let frameHeight = sheetHeigth / this.totalRows;
+    
+        this.frameTimer++;
+        if(this.frameTimer > this.frameInterval){
+            this.frameTimer = 0;
+    
+            //loop through frames on row
+            if(this.currentFrame < this.framesOnRow - 1) this.currentFrame++;
+            else this.currentFrame = 0;
+        }
+    
+        context.imageSmoothingEnabled = false;
+        context.drawImage(
+            this.spriteSheet, //img
+            this.currentFrame * frameWidth, //sx
+            (this.chosenRow - 1) * frameHeight, //sy
+            frameWidth, //swidth
+            frameHeight, //sheight
+            this.x - frameWidth * 0.5 * this.scale, //x
+            this.y - frameHeight * 0.5 * this.scale, //y
+            frameWidth * this.scale, //width
+            frameHeight * this.scale //height
+        );
+    }
+
+}
