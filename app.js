@@ -68,6 +68,7 @@ let fps;
 let target;
 let puppy;
 let puppy2;
+let puppy3;
 
 window.onload = init;
 
@@ -78,6 +79,7 @@ function init(){
 
     puppy = new AnimateSprite(document.getElementById("puppy"), 8, 200, 150, 5, 3, 3, 2, 12);
     puppy2 = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3, 3, 2, 12);
+    puppy3 = new AnimateSprite(document.getElementById("puppy"), 8, 400, 150, 5, 3, 3, 2, 12);
     target = puppy;
 
     // Start the first frame request
@@ -112,6 +114,7 @@ function draw(){
     //drawSprite();
     puppy.drawSprite(context);
     puppy2.drawSprite(context);
+    puppy3.drawSprite(context);
 }
 
 // _______________SWITCH ANIMATIONS___________________
@@ -123,6 +126,9 @@ document.onkeydown = function (e) {
     }
     if (e.key == "2"){
         target = puppy2;
+    }
+    if (e.key == "3"){
+        target = puppy3;
     }
 
     if (e.key.toLowerCase() == "r"){
