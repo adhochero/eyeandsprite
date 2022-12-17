@@ -70,6 +70,8 @@ let puppy;
 let puppy2;
 let puppy3;
 
+let explostion;
+
 window.onload = init;
 
 function init(){
@@ -77,10 +79,12 @@ function init(){
     canvas = document.getElementById('canvas');
     context = canvas.getContext('2d');
 
-    puppy = new AnimateSprite(document.getElementById("puppy"), 8, 200, 150, 5, 3, 3, 2, 12);
-    puppy2 = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3, 3, 2, 12);
-    puppy3 = new AnimateSprite(document.getElementById("puppy"), 8, 400, 150, 5, 3, 3, 2, 12);
+    puppy = new AnimateSprite(document.getElementById("puppy"), 8, 200, 150, 5, 3, 3, 2, 12, false);
+    puppy2 = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3, 3, 2, 12, false);
+    puppy3 = new AnimateSprite(document.getElementById("puppy"), 8, 400, 150, 5, 3, 3, 2, 12, false);
     target = puppy;
+
+    explostion = new AnimateSprite(document.getElementById("explostion"), 8, 100, 100, 2, 3, 1, 2, 4, true);
 
     // Start the first frame request
     window.requestAnimationFrame(gameLoop);
@@ -111,10 +115,11 @@ function draw(){
     context.clearRect(0, 0, canvas.width, canvas.height);
     
     //draw below
-    //drawSprite();
     puppy.drawSprite(context);
     puppy2.drawSprite(context);
     puppy3.drawSprite(context);
+
+    explostion.drawSprite(context);
 }
 
 // _______________SWITCH ANIMATIONS___________________
@@ -148,7 +153,8 @@ document.onkeydown = function (e) {
 // _______________ANIMATE SPRITE CLASS___________________
 
 class AnimateSprite{
-    constructor(spriteSheet, scale, x, y, totalColumns, totalRows, chosenRow, framesOnRow, frameInterval){
+    constructor(spriteSheet, scale, x, y, totalColumns, totalRows, chosenRow, framesOnRow, frameInterval, playAllRows){
+        this.playAllRows = playAllRows;
         this.spriteSheet = spriteSheet;
         this.scale = scale;
         this.x = x;
@@ -175,9 +181,22 @@ class AnimateSprite{
         if(this.frameTimer > this.frameInterval){
             this.frameTimer = 0;
     
-            //loop through frames on row
-            if(this.currentFrame < this.framesOnRow - 1) this.currentFrame++;
-            else this.currentFrame = 0;
+            if(this.playAllRows){
+                //loop through all frames
+                this.currentFrame++
+                if(this.currentFrame > this.totalColumns){
+                    this.currentFrame = 0;
+                    this.chosenRow++
+                }
+                if(this.chosenRow == this.totalRows && this.currentFrame == this.framesOnRow){
+                    this.chosenRow = 0;
+                }
+            }
+            else{
+                //loop through frames on row
+                if(this.currentFrame < this.framesOnRow - 1) this.currentFrame++;
+                else this.currentFrame = 0;
+            }
         }
     
         context.imageSmoothingEnabled = false;
