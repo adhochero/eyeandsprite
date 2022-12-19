@@ -80,13 +80,9 @@ function init(){
     canvas = document.getElementById('canvas');
     context = canvas.getContext('2d');
 
-    puppy = new AnimateSprite(document.getElementById("puppy"), 8, 200, 150, 5, 3, 3, 2, 12, false);
-    puppy2 = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3, 3, 2, 12, false);
-    puppy3 = new AnimateSprite(document.getElementById("puppy"), 8, 400, 150, 5, 3, 3, 2, 12, false);
-    target = puppy;
-
-    explostion = new AnimateSprite(document.getElementById("explostion"), 8, 100, 100, 2, 3, 1, 2, 4, true);
-    person = new AnimateSprite(document.getElementById("person"), 8, 500, 150, 4, 5, 2, 4, 8, true);
+    person = new AnimateSprite(document.getElementById("person"), 8, 400, 150, 4, 5, 2, 4, 10, false);
+    puppy = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3,  2, 5, 8, false);
+    explostion = new AnimateSprite(document.getElementById("explostion"), 8, 100, 150, 2, 3, 1, 2, 4, true);
 
     // Start the first frame request
     window.requestAnimationFrame(gameLoop);
@@ -117,39 +113,26 @@ function draw(){
     context.clearRect(0, 0, canvas.width, canvas.height);
     
     //draw below
-    puppy.drawSprite(context);
-    puppy2.drawSprite(context);
-    puppy3.drawSprite(context);
-
-    explostion.drawSprite(context);
     person.drawSprite(context);
+    puppy.drawSprite(context);
+    explostion.drawSprite(context);
 }
 
 // _______________SWITCH ANIMATIONS___________________
 
 //change animation on key down
 document.onkeydown = function (e) {
-    if (e.key == "1"){
-        target = puppy;
-    }
-    if (e.key == "2"){
-        target = puppy2;
-    }
-    if (e.key == "3"){
-        target = puppy3;
-    }
-
     if (e.key.toLowerCase() == "r"){
-        target.currentFrame = 0;
-        target.chosenRow = 2;
-        target.framesOnRow = 5;
-        target.frameInterval = 8;
+        puppy.currentFrame = 0;
+        puppy.chosenRow = 2;
+        puppy.framesOnRow = 5;
+        puppy.frameInterval = 8;
     }
     if (e.key.toLowerCase() == "s"){
-        target.currentFrame = 0;
-        target.chosenRow = 3;
-        target.framesOnRow = 2;
-        target.frameInterval = 12;
+        puppy.currentFrame = 0;
+        puppy.chosenRow = 3;
+        puppy.framesOnRow = 2;
+        puppy.frameInterval = 12;
     }
 };
 
