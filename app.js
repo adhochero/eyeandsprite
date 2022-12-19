@@ -65,13 +65,9 @@ let secondsPassed;
 let oldTimeStamp;
 let fps;
 
-let target;
-let puppy;
-let puppy2;
-let puppy3;
-
-let explostion;
 let person;
+let puppy;
+let explosion;
 
 window.onload = init;
 
@@ -82,7 +78,7 @@ function init(){
 
     person = new AnimateSprite(document.getElementById("person"), 8, 400, 150, 4, 5, 2, 4, 10, false);
     puppy = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3,  2, 5, 8, false);
-    explostion = new AnimateSprite(document.getElementById("explostion"), 8, 100, 150, 2, 3, 1, 2, 4, true);
+    explosion = new AnimateSprite(document.getElementById("explosion"), 8, 100, 150, 2, 3, 1, 2, 4, true);
 
     // Start the first frame request
     window.requestAnimationFrame(gameLoop);
@@ -115,7 +111,7 @@ function draw(){
     //draw below
     person.drawSprite(context);
     puppy.drawSprite(context);
-    explostion.drawSprite(context);
+    explosion.drawSprite(context);
 }
 
 // _______________SWITCH ANIMATIONS___________________
