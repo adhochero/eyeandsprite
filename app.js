@@ -76,9 +76,9 @@ function init(){
     canvas = document.getElementById('canvas');
     context = canvas.getContext('2d');
 
-    person = new AnimateSprite(document.getElementById("person"), 8, 400, 150, 4, 5, 2, 4, 10, false);
-    puppy = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3,  2, 5, 8, false);
-    explosion = new AnimateSprite(document.getElementById("explosion"), 8, 100, 150, 2, 3, 1, 2, 4, true);
+    person = new AnimateSprite(document.getElementById("person"), 8, 400, 150, 4, 5, 2, 4, .18, false);
+    puppy = new AnimateSprite(document.getElementById("puppy"), 8, 300, 150, 5, 3,  2, 5, .18, false);
+    explosion = new AnimateSprite(document.getElementById("explosion"), 8, 100, 150, 2, 3, 1, 2, .1, true);
 
     // Start the first frame request
     window.requestAnimationFrame(gameLoop);
@@ -101,7 +101,9 @@ function gameLoop(timeStamp) {
 }
 
 function update(secondsPassed) {
-    
+    person.updateSprite(secondsPassed);
+    puppy.updateSprite(secondsPassed);
+    explosion.updateSprite(secondsPassed);
 }
 
 function draw(){
@@ -152,35 +154,37 @@ class AnimateSprite{
         this.frameInterval = frameInterval;
     }
 
+    updateSprite(secondsPassed){
+        this.frameTimer += secondsPassed;
+        if(this.frameTimer <= this.frameInterval) return;
+
+        this.frameTimer = 0;
+    
+        if(this.playAllRows){
+            //loop through all frames
+            this.currentFrame++
+            if(this.currentFrame > this.totalColumns - 1){
+                this.currentFrame = 0;
+                this.chosenRow++
+            }
+            if(this.chosenRow == this.totalRows && this.currentFrame == this.framesOnRow - 1){
+                this.chosenRow = 1;
+                this.currentFrame = 0;
+            }
+        }
+        else{
+            //loop through frames on row
+            if(this.currentFrame < this.framesOnRow - 1) this.currentFrame++;
+            else this.currentFrame = 0;
+        }
+    }
+
     drawSprite(context){
         //get frames size based on spritesheet
         let sheetWidth = this.spriteSheet.naturalWidth;
         let sheetHeigth = this.spriteSheet.naturalHeight;
         let frameWidth = sheetWidth / this.totalColumns;
         let frameHeight = sheetHeigth / this.totalRows;
-    
-        this.frameTimer++;
-        if(this.frameTimer > this.frameInterval){
-            this.frameTimer = 0;
-    
-            if(this.playAllRows){
-                //loop through all frames
-                this.currentFrame++
-                if(this.currentFrame > this.totalColumns - 1){
-                    this.currentFrame = 0;
-                    this.chosenRow++
-                }
-                if(this.chosenRow == this.totalRows && this.currentFrame == this.framesOnRow - 1){
-                    this.chosenRow = 1;
-                    this.currentFrame = 0;
-                }
-            }
-            else{
-                //loop through frames on row
-                if(this.currentFrame < this.framesOnRow - 1) this.currentFrame++;
-                else this.currentFrame = 0;
-            }
-        }
     
         context.imageSmoothingEnabled = false;
         context.drawImage(
