@@ -124,13 +124,13 @@ document.onkeydown = function (e) {
         puppy.currentFrame = 0;
         puppy.chosenRow = 2;
         puppy.framesOnRow = 5;
-        puppy.frameInterval = 8;
+        puppy.frameInterval = .18;
     }
     if (e.key.toLowerCase() == "s"){
         puppy.currentFrame = 0;
         puppy.chosenRow = 3;
         puppy.framesOnRow = 2;
-        puppy.frameInterval = 12;
+        puppy.frameInterval = .2;
     }
 };
 
